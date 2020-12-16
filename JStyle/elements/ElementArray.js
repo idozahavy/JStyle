@@ -1,11 +1,14 @@
 /**
  *
  * @param {Element} element
- * @param {[["key1","value1"],["key2","value2"]]} attrsArray
+ * @param {ElementAttrs} attrs
  */
 export function isElementMatchAttrs(element, attrs) {
-  for (let key in attrs) {
-    if (!(element.hasAttribute(key) && element.getAttribute(key) == attrs[key]) && !(key in element && element[key] == attrs[key])) {
+  var key;
+  for (key in attrs) {
+    // if (!(element.hasAttribute(key) && element.getAttribute(key) == attrs[key]) && !(key in element && element[key] == attrs[key])) {
+      if (element[key] != attrs[key] && element.getAttribute(key) != attrs[key]) {
+        // if (!(element.attributes[key] == attrs[key]) && !(element[key] == attrs[key])) {
       return false;
     }
   }
@@ -44,12 +47,16 @@ export function filterElements(elements, options) {
   // return elements.filter((element) => {
   // 	return isElementMatchAttrs(element, options.attrsList);
   // });
-  const result = [];
-  for (let i = 0, n = elements.length; i < n; i++) {
+  var index = 0;
+  var result = new Array(elements.length); // 1
+  // let result = []; // 2
+  for (let i = 0; i < elements.length; i++) {
     if (isElementMatchAttrs(elements[i], options)) {
-      result.push(elements[i]);
+      result[index++] = elements[i]; // 1
+      // result.push(elements[i]); // 2
     }
   }
+  result.length = index; // 1
   return result;
 }
 
@@ -74,7 +81,8 @@ export class ElementAttrs {
    */
   static getAttrsAliasedArray(attrsObject, output = {}) {
     const aliasedArgsArray = output;
-    for (const key in attrsObject) {
+    var key;
+    for (key in attrsObject) {
       if (key in this.aliases && this.aliases[key]) {
         aliasedArgsArray[this.aliases[key]] = attrsObject[key];
       } else {

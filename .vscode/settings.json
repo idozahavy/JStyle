@@ -1,7 +1,8 @@
 {
 	"cSpell.words": [
 		"afterbegin",
-		"clazz"
+		"clazz",
+		"jstyle"
 	],
 	"compile-hero.disable-compile-files-on-did-save-code": true
 }

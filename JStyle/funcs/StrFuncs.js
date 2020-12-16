@@ -3,7 +3,7 @@ export function getRandomStr(length = 10) {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
+    result = result.concat(characters.charAt(Math.floor(Math.random() * characters.length)));
   }
   return result;
 }
@@ -13,7 +13,7 @@ export function convertToStyleFormat(str) {
   let result = str[0].toLowerCase();
   for (let i in seq) {
     let c = seq[i];
-    result += c >= "A" && c <= "Z" ? "-" + c.toLowerCase() : c;
+    result = result.concat(c >= "A" && c <= "Z" ? "-".concat(c.toLowerCase()) : c);
   }
   return result;
 }

@@ -1,5 +1,7 @@
+import JStyleClass from "./JStyle/class/JStyleClass.js";
+import { ElementAttrs, filterElements } from "./JStyle/elements/ElementArray.js";
 import JStyle from "./JStyle/JStyle.js";
-import JStyleSelector from "./JStyle/selectors/JStyleSelector.js";
+import QueryOptions from "./JStyle/query/QueryOptions.js";
 
 // jstyle = JStyle.fromCSS("./text.css")
 
@@ -8,21 +10,42 @@ import JStyleSelector from "./JStyle/selectors/JStyleSelector.js";
 // var newClass = JStyle.newClass("abc",true); // unique className
 // var newClass = JStyle.getClass(".existingClass"); // overwrite className properties
 
-var d = new JStyle("abc", 1);
+var js = new JStyle("id", {container: document.head}); // 1000 times - 82ms - bad
+var d = new JStyleClass("ggg", false); // million times - 80ms - ok
+js.addJStyleClass(d); // million times - 5ms - ok
+
+let elements = QueryOptions.getElements({});
+let attrs;
+console.log(elements[50]);
 let timestamp = new Date().getTime();
-for (let i = 0; i < 100_000; i++) {
-  d.queryBind({tag: "div", id: "abc"}); // 0.042 milliseconds for 50 dives
+for (let i = 0; i < 1000; i++) {
+  // attrs = new ElementAttrs({tag: "div", id: "abc"});
+  // elements = filterElements(elements, {localName:"div", id: "abc"});
+  // elements = QueryOptions.getElements({});
+  // for (let i = 0, n = elements.length; i < n; i++) {
+  //   if (!elements[i].classList.contains("ggg")) {
+  //     elements[i].classList.add("ggg");
+  //   }
+  // }
+
+  d.queryBind({tag: "div", id: "abc"});
 }
-console.log("binding", new Date().getTime() - timestamp);
-timestamp = new Date().getTime();
+console.log("loop1", new Date().getTime() - timestamp);
+
+d.queryBind({tag: "div", id: "ggg"}); // 1000 times - 26ms - not good
+
+// timestamp = new Date().getTime();
 d.setAttr("color", "red");
 d.setAttr("background-color", "blue");
 d.setHeight("100px");
 d.setBackgroundColor("gray");
-console.log("style change", new Date().getTime() - timestamp);
+js.updateStylesheet();
+// console.log("style change", new Date().getTime() - timestamp);
 
 // selector = new JStyleSelector(JStyleSelector.getUnique("abc"));
 
-var g = new JStyle("ggg", false, document.head);
+var g = new JStyleClass("ggg", false, document.head);
+js.addJStyleClass(g);
 g.setColor("red");
 g.setBackgroundColor("blue");
+js.updateStylesheet();
