@@ -30,6 +30,8 @@ export default class JStyleClass {
     this.style[attr] = value;
   }
 
+  set ""(value){ console.log("here noew" + value); }
+
   /**
    * searches html elements by parameters and set className to this
    * @param {object} elementAttrs will look for elements with those parameters.
@@ -50,7 +52,7 @@ export default class JStyleClass {
   }
 
   /**
-   * searches html elements by parameters and set className to this
+   * searches html elements by parameters and unset className from class-name
    * @param {object} elementAttrs will look for elements with those parameters.
    */
   queryUnbind(elementAttrs, options = {}) {
@@ -62,6 +64,10 @@ export default class JStyleClass {
     for (let i = 0, n = elements.length; i < n; i++) {
       this.unbindElementStyle(elements[i]);
     }
+  }
+
+  toString() {
+    return this.className;
   }
 	
   bindElementStyle = (element) => bindElementStyle(element, this);
