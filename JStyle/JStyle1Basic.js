@@ -14,8 +14,6 @@ export default class JStyle1Basic {
 
     this.stylesheet = document.createElement("style");
     this.stylesheet.id = "CSSOM_JStyle_" + id;
-
-    this.appendToHtml(options.container, options);
   }
 
   /**
